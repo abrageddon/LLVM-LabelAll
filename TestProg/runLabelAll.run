@@ -1,0 +1,12 @@
+../build/Release+Asserts/bin/clang++ -g -O2 -c -emit-llvm helloworld.cpp -o helloworld.bc
+
+# opt -load ../build/Release+Asserts/lib/LabelAll.so -labelall -S helloworld.bc > helloworld-labelall.ll
+opt -load ../build/Release+Asserts/lib/LabelAll.so -labelall helloworld.bc -o helloworld-labelall.bc
+
+#../build/Release+Asserts/bin/clang++ -g -O1 helloworld-labelall.bc -S -o helloworld-labelall.s
+#../build/Release+Asserts/bin/clang++ -g -O2 helloworld-labelall.bc -o helloworld-labelall
+#echo -e '\n'
+../build/Release+Asserts/bin/clang++ -g -O0 helloworld-labelall.bc
+#echo -e '\n'
+#../build/Release+Asserts/bin/llc helloworld-labelall.bc -o helloworld-labelall
+#echo -e '\n'
