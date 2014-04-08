@@ -1,0 +1,1 @@
+make -j16 && sudo make install && cd ~/TestProg/bin/ ;minidump_stackwalk /tmp/1c8a4e87-4dfc-c03a-24e19cf3-7b80cc03.dmp ~/TestProg/bin/symbols/ | grep "DEBUG" | less
