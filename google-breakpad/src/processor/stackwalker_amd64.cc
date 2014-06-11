@@ -133,10 +133,11 @@ StackFrame* StackwalkerAMD64::GetContextFrame() {
   //SNEISIUS TODO NOPMAPIT!
   const CodeModule *curMod = modules_->GetModuleForAddress(frame->context.rip);
   if (curMod){
+    printf("DEBUG BASE: %x\n", curMod->base_address());
     string fileStr( PathnameStripper::File(curMod->code_file()).c_str() );
     printf("DEBUG CONTEXT FRAME: %x\n", frame->context.rip);
-    uint64_t newAdd = multicompiler::NormalizeAddress(fileStr, frame->context.rip);
-    printf("DEBUG CONTEXT NORM:  %x\n", newAdd);
+    uint64_t newAdd = multicompiler::NormalizeAddress(fileStr, frame->context.rip - curMod->base_address()) + curMod->base_address();
+    printf("DEBUG CONTEXT NORM:  %x\n\n", newAdd);
     frame->context.rip = newAdd;
     frame->instruction = newAdd;
   }
@@ -159,10 +160,11 @@ StackFrameAMD64* StackwalkerAMD64::GetCallerByCFIFrameInfo(
   //SNEISIUS TODO NOPMAPIT!
   const CodeModule *curMod = modules_->GetModuleForAddress(frame->context.rip);
   if (curMod){
+    printf("DEBUG BASE: %x\n", curMod->base_address());
     string fileStr( PathnameStripper::File(curMod->code_file()).c_str() );
     printf("DEBUG CFI FRAME: %x\n", frame->context.rip);
-    uint64_t newAdd = multicompiler::NormalizeAddress(fileStr, frame->context.rip-1)+1;//Caller IPs are already on next instruction
-    printf("DEBUG CFI NORM:  %x\n", newAdd);
+    uint64_t newAdd = multicompiler::NormalizeAddress(fileStr, frame->context.rip-1-curMod->base_address()) + curMod->base_address() + 1;//Caller IPs are already on next instruction
+    printf("DEBUG CFI NORM:  %x\n\n", newAdd);
     frame->context.rip = newAdd;
     //frame->instruction = newAdd;
   }
@@ -203,10 +205,11 @@ StackFrameAMD64* StackwalkerAMD64::GetCallerByStackScan(
   //SNEISIUS TODO NOPMAPIT!
   const CodeModule *curMod = modules_->GetModuleForAddress(frame->context.rip);
   if (curMod){
+    printf("DEBUG BASE: %x\n", curMod->base_address());
     string fileStr( PathnameStripper::File(curMod->code_file()).c_str() );
     printf("DEBUG SCAN FRAME: %x\n", frame->context.rip);
-    uint64_t newAdd = multicompiler::NormalizeAddress(fileStr, frame->context.rip-1)+1;//Caller IPs are already on next instruction
-    printf("DEBUG SCAN NORM:  %x\n", newAdd);
+    uint64_t newAdd = multicompiler::NormalizeAddress(fileStr, frame->context.rip-1-curMod->base_address())+curMod->base_address()+1;//Caller IPs are already on next instruction
+    printf("DEBUG SCAN NORM:  %x\n\n", newAdd);
     frame->context.rip = newAdd;
     //frame->instruction = newAdd;
   }

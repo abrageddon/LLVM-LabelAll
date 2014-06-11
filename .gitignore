@@ -48,3 +48,6 @@ tools/lldb
 tools/lld
 # Sphinx build tree, if building in-source dir.
 docs/_build
+
+
+google-breakpad/build

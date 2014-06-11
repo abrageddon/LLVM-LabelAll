@@ -211,7 +211,7 @@ def output_address_map(divAdd, divSize, normAdd, normSize, labelID):
         outFile.write('\n')
     except KeyError as e:
         print ("Could NOT find: %s" % e)
-    outFile.flush()
+    #outFile.flush()
 
 
 def parse_args():

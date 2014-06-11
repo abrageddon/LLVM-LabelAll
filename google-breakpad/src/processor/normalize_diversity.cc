@@ -13,6 +13,7 @@ uint64_t NormalizeAddress(string filename, uint64_t rip){
   std::ifstream NOPMap(NOPMapFile.c_str());
 
   if(NOPMap.is_open()){
+    printf("DEBUG FILE: %s\n", NOPMapFile.c_str());
     string addressLine;
     while(std::getline(NOPMap, addressLine)){
       //printf("DEBUG NOPADD: %s\n", addressLine.c_str());
